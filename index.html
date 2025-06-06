@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulaire Airtable</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: white;
+            padding: 10px;
+        }
+
+        .airtable-embed {
+            width: 100%;
+            height: 533px;
+            border: 1px solid #ccc;
+            background: transparent;
+        }
+
+        @media (max-width: 768px) {
+            .airtable-embed {
+                height: 600px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 5px;
+            }
+            
+            .airtable-embed {
+                height: 550px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <iframe class="airtable-embed" 
+            src="https://airtable.com/embed/appr7a5No1kX4g9jD/pagnsb6lgilvWQu8J/form" 
+            frameborder="0" 
+            onmousewheel="" 
+            width="100%" 
+            height="533" 
+            style="background: transparent; border: 1px solid #ccc;">
+    </iframe>
+</body>
+</html> 
