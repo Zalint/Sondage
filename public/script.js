@@ -241,7 +241,18 @@ async function submitForm(data) {
             body: JSON.stringify(data)
         });
 
-        const result = await response.json();
+        // Vérifier si la réponse a un contenu JSON valide
+        const contentType = response.headers.get('content-type');
+        let result;
+        
+        if (contentType && contentType.includes('application/json')) {
+            result = await response.json();
+        } else {
+            // Si pas de JSON, probablement une erreur serveur
+            const text = await response.text();
+            console.error('Réponse serveur non-JSON:', text);
+            throw new Error('Le serveur ne répond pas correctement. Veuillez réessayer plus tard.');
+        }
 
         if (!response.ok) {
             throw new Error(result.message || 'Une erreur est survenue lors de l\'envoi du formulaire.');
@@ -250,6 +261,12 @@ async function submitForm(data) {
         return result;
     } catch (error) {
         console.error('Erreur lors de la soumission:', error);
+        
+        // Messages d'erreur plus explicites
+        if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+            throw new Error('Impossible de contacter le serveur. Vérifiez votre connexion internet.');
+        }
+        
         throw error;
     }
 }

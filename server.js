@@ -10,7 +10,9 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Configuration de la base de données PostgreSQL
+// Utilise DATABASE_URL de Render si disponible, sinon les variables individuelles
 const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
     host: process.env.DB_HOST || 'localhost',
     port: process.env.DB_PORT || 5432,
     database: process.env.DB_NAME || 'maas_db',
@@ -19,6 +21,10 @@ const pool = new Pool({
     max: 20,
     idleTimeoutMillis: 30000,
     connectionTimeoutMillis: 2000,
+    // SSL requis pour les connexions Render/Heroku en production
+    ssl: process.env.NODE_ENV === 'production' && process.env.DATABASE_URL 
+        ? { rejectUnauthorized: false } 
+        : false
 });
 
 // Test de connexion à la base de données
