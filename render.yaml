@@ -1,0 +1,30 @@
+# Configuration Render.com pour le Sondage Mata
+# Documentation: https://render.com/docs/yaml-spec
+
+services:
+  # Web Service - Serveur Node.js
+  - type: web
+    name: mata-sondage
+    env: node
+    region: frankfurt
+    plan: free
+    buildCommand: npm install
+    startCommand: node server.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: maas-db
+          property: connectionString
+
+databases:
+  # Base de données PostgreSQL
+  - name: maas-db
+    databaseName: maas_db
+    user: maas_db_user
+    region: frankfurt
+    plan: free
+    postgresMajorVersion: 15
+
