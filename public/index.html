@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sondage Investisseurs Mata - Stratégie 2026</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="mata-title">MATA</h1>
+            <p class="subtitle">STRATÉGIE 2026 & LEVÉE DE FONDS</p>
+        </header>
+
+        <div class="intro-section">
+            <p>Dans le cadre de la préparation de la stratégie 2026, nous visons une levée d'au moins 1 milliard FCFA pour accélérer la structuration de Mata (process, gouvernance, rentabilité, autosuffisance et capacité d'exécution).</p>
+            
+            <p>Ce sondage a pour objectif de mieux comprendre vos attentes en tant qu'investisseur (horizon, motivation, conditions de sortie, niveau de confiance). Vos réponses nous permettront d'orienter la stratégie 2026 (priorités, calendrier, niveau de réinvestissement, distribution éventuelle, modalités de liquidité).</p>
+            
+            <p class="duration"><strong>Durée : 2 minutes. Réponses confidentielles.</strong></p>
+        </div>
+
+        <form id="sondageForm" class="survey-form">
+            <!-- Informations optionnelles -->
+            <div class="form-section optional-info">
+                <div class="form-group">
+                    <label for="nom">Nom (optionnel)</label>
+                    <input type="text" id="nom" name="nom" placeholder="Votre nom">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email (optionnel)</label>
+                    <input type="email" id="email" name="email" placeholder="Votre email">
+                </div>
+            </div>
+
+            <!-- Question 1 -->
+            <div class="form-section">
+                <label class="question-label">1. Objectif principal de votre investissement ?</label>
+                <select name="objectif_principal" id="objectif_principal" required>
+                    <option value="">-- Sélectionnez --</option>
+                    <option value="Gagner des dividendes">Gagner des dividendes</option>
+                    <option value="Revendre mes parts plus cher (plus-value)">Revendre mes parts plus cher (plus-value)</option>
+                    <option value="Non financier : soutenir Ousmane / l'équipe / la vision">Non financier : soutenir Ousmane / l'équipe / la vision</option>
+                    <option value="Autre">Autre</option>
+                </select>
+                <div class="other-input" id="objectif_autre_container" style="display: none;">
+                    <input type="text" id="objectif_autre" name="objectif_autre" placeholder="Précisez...">
+                </div>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="form-section">
+                <label class="question-label">2. Horizon d'attente pour la rentabilité ?</label>
+                <select name="delai_attente" id="delai_attente" required>
+                    <option value="">-- Sélectionnez --</option>
+                    <option value="Moins d'un an">Moins d'un an</option>
+                    <option value="1 an">1 an</option>
+                    <option value="2 ans">2 ans</option>
+                    <option value="3 ans">3 ans</option>
+                    <option value="Autant que nécessaire">Autant que nécessaire</option>
+                    <option value="Autre">Autre</option>
+                </select>
+                <div class="other-input" id="delai_autre_container" style="display: none;">
+                    <input type="text" id="delai_autre" name="delai_autre" placeholder="Précisez...">
+                </div>
+            </div>
+
+            <!-- Question 3 -->
+            <div class="form-section">
+                <label class="question-label">3. Vendre si plus-value de +50% ?</label>
+                <div class="radio-group-simple">
+                    <label class="radio-simple">
+                        <input type="radio" name="revente_plus_value" value="Oui" required>
+                        <span>Oui</span>
+                    </label>
+                    <label class="radio-simple">
+                        <input type="radio" name="revente_plus_value" value="Non" required>
+                        <span>Non</span>
+                    </label>
+                    <label class="radio-simple">
+                        <input type="radio" name="revente_plus_value" value="Autre" required>
+                        <span>Autre</span>
+                    </label>
+                </div>
+                <div class="other-input" id="revente_autre_container" style="display: none;">
+                    <input type="text" id="revente_autre" name="revente_autre" placeholder="Précisez...">
+                </div>
+            </div>
+
+            <!-- Question 4 -->
+            <div class="form-section">
+                <label class="question-label">4. Priorité stratégique 2026 ?</label>
+                <select name="priorite_2026" id="priorite_2026">
+                    <option value="">-- Sélectionnez --</option>
+                    <option value="Rentabilité d'abord (marge, discipline, cash)">Rentabilité (Marge, Cash)</option>
+                    <option value="Croissance d'abord (réseau, CA, expansion)">Croissance (CA, Expansion)</option>
+                    <option value="Structuration d'abord (process, gouvernance, contrôle, reporting)">Structuration (Gouvernance)</option>
+                    <option value="Mix équilibré">Mix équilibré</option>
+                    <option value="Autre">Autre</option>
+                </select>
+                <div class="other-input" id="priorite_autre_container" style="display: none;">
+                    <input type="text" id="priorite_autre" name="priorite_autre" placeholder="Précisez...">
+                </div>
+            </div>
+
+            <!-- Question 5 -->
+            <div class="form-section">
+                <label class="question-label">5. Si c'était à refaire, réinvestiriez-vous dans Mata ?</label>
+                <select name="reinvestir" id="reinvestir" required>
+                    <option value="">-- Sélectionnez --</option>
+                    <option value="Oui">Oui</option>
+                    <option value="Non">Non</option>
+                    <option value="Peut-être / sous conditions">Peut-être / sous conditions</option>
+                    <option value="Autre">Autre</option>
+                </select>
+                <div class="other-input" id="reinvestir_autre_container" style="display: none;">
+                    <input type="text" id="reinvestir_autre" name="reinvestir_autre" placeholder="Précisez...">
+                </div>
+            </div>
+
+            <!-- Question 6 -->
+            <div class="form-section">
+                <label class="question-label">6. Critère le plus déterminant dans votre décision d'investir ?</label>
+                <select name="critere_determinant" id="critere_determinant" required>
+                    <option value="">-- Sélectionnez --</option>
+                    <option value="Ousmane (leadership / exécution)">Ousmane (leadership / exécution)</option>
+                    <option value="Le potentiel du marché">Le potentiel du marché</option>
+                    <option value="Le projet / la vision / l'impact">Le projet / la vision / l'impact</option>
+                    <option value="Les éléments financiers (rendement, trajectoire, valorisation, etc.)">Les éléments financiers</option>
+                    <option value="Autre">Autre</option>
+                </select>
+                <div class="other-input" id="critere_autre_container" style="display: none;">
+                    <input type="text" id="critere_autre" name="critere_autre" placeholder="Précisez...">
+                </div>
+            </div>
+
+            <!-- Question 7 (optionnelle) -->
+            <div class="form-section">
+                <label class="question-label">7. Niveau de reporting attendu ? (optionnel)</label>
+                <select name="niveau_reporting" id="niveau_reporting">
+                    <option value="">-- Sélectionnez --</option>
+                    <option value="Mensuel (résumé + KPI)">Mensuel (résumé + KPI)</option>
+                    <option value="Trimestriel (bilan + actions)">Trimestriel (bilan + actions)</option>
+                    <option value="Semestriel">Semestriel</option>
+                    <option value="À la demande">À la demande</option>
+                    <option value="Autre">Autre</option>
+                </select>
+                <div class="other-input" id="reporting_autre_container" style="display: none;">
+                    <input type="text" id="reporting_autre" name="reporting_autre" placeholder="Précisez...">
+                </div>
+            </div>
+
+            <!-- Bouton de soumission -->
+            <div class="submit-section">
+                <button type="submit" id="submitBtn" class="submit-btn">
+                    <span class="btn-text">ENVOYER MES RÉPONSES</span>
+                    <span class="btn-loader" style="display: none;">Envoi en cours...</span>
+                </button>
+            </div>
+        </form>
+
+        <!-- Message de confirmation -->
+        <div id="successMessage" class="success-message" style="display: none;">
+            <div class="success-content">
+                <div class="success-icon">✓</div>
+                <h2>Merci pour votre participation !</h2>
+                <p>Vos réponses ont été enregistrées avec succès.</p>
+                <p>Elles nous aideront à mieux orienter la stratégie 2026 de Mata.</p>
+            </div>
+        </div>
+
+        <!-- Message d'erreur -->
+        <div id="errorMessage" class="error-message" style="display: none;">
+            <div class="error-content">
+                <div class="error-icon">⚠</div>
+                <h3>Une erreur est survenue</h3>
+                <p id="errorText"></p>
+                <button onclick="location.reload()" class="retry-btn">Réessayer</button>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>© 2026 Mata - Confidentiel</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

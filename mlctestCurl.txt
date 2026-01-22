@@ -1,0 +1,14 @@
+/api/external/mlc/livreurStats
+
+
+/api/external/mlc/livreurStats/daily?date=2025-06-05&seuilMata=20000&seuilMlc=1750
+
+
+https://airtable.com/appr7a5No1kX4g9jD/pagnsb6lgilvWQu8J/form
+
+
+api/external/mlc/livreurStats/monthtodate
+
+$response = Invoke-WebRequest -Uri "http://localhost:4000/api/external/mlc/livreurStats/daily?date=2025-06-04" -Method GET; $response.Content | ConvertFrom-Json | ConvertTo-Json -Depth 10
+
+$response = Invoke-WebRequest -Uri "http://localhost:4000/api/external/mlc/livreurStats/monthtodate?month=2025-06" -Method GET; $response.Content | ConvertFrom-Json | ConvertTo-Json -Depth 10

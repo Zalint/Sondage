@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Résultats du Sondage - Mata</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 6px;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 40px 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: transform 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #10b981;
+        }
+
+        .btn-outline {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .stats-bar {
+            background: #f9fafb;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .stat-item {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .stat-item strong {
+            color: #1f2937;
+            font-size: 18px;
+            margin-left: 5px;
+        }
+
+        .response-card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .response-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-color: #667eea;
+        }
+
+        .response-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f3f4f6;
+        }
+
+        .response-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .response-id {
+            font-size: 12px;
+            color: #9ca3af;
+            font-weight: 600;
+        }
+
+        .response-date {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .response-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .response-email {
+            font-size: 14px;
+            color: #667eea;
+        }
+
+        .questions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .question-block {
+            background: #f9fafb;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 3px solid #667eea;
+        }
+
+        .question-label {
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 8px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .question-answer {
+            font-size: 15px;
+            color: #1f2937;
+            font-weight: 500;
+        }
+
+        .question-answer.highlight {
+            color: #667eea;
+        }
+
+        .answer-autre {
+            font-size: 13px;
+            color: #9ca3af;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6b7280;
+        }
+
+        .spinner {
+            border: 3px solid #f3f4f6;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #9ca3af;
+        }
+
+        .empty-state-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+
+        .error {
+            background: #fee;
+            color: #c00;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #c00;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .pagination button {
+            padding: 8px 16px;
+            border: 1px solid #e5e7eb;
+            background: white;
+            color: #374151;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .pagination button:hover:not(:disabled) {
+            background: #f9fafb;
+            border-color: #667eea;
+        }
+
+        .pagination button.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-select {
+            padding: 10px 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 15px;
+            }
+
+            .toolbar {
+                flex-direction: column;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .questions-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .response-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Résultats du Sondage Mata</h1>
+            <p>Consultation détaillée des réponses</p>
+            <div class="nav-links">
+                <a href="/admin.html">📈 Statistiques</a>
+                <a href="/api/export/excel">📊 Exporter Excel</a>
+                <a href="/api/export/csv">📥 Exporter CSV</a>
+                <a href="/">📝 Formulaire</a>
+            </div>
+        </div>
+
+        <div class="content">
+            <div id="error" class="error" style="display: none;"></div>
+
+            <!-- Barre d'outils -->
+            <div class="toolbar">
+                <div class="search-box">
+                    <input 
+                        type="text" 
+                        id="searchInput" 
+                        placeholder="Rechercher par nom, email ou réponse..."
+                        onkeyup="filterResponses()"
+                    >
+                    <span class="search-icon">🔍</span>
+                </div>
+                <button class="btn" onclick="loadAllResponses()">🔄 Actualiser</button>
+            </div>
+
+            <!-- Filtres -->
+            <div class="filters">
+                <select class="filter-select" id="filterObjectif" onchange="filterResponses()">
+                    <option value="">Tous les objectifs</option>
+                    <option value="Gagner des dividendes">Gagner des dividendes</option>
+                    <option value="Revendre mes parts plus cher (plus-value)">Revendre mes parts</option>
+                    <option value="Non financier : soutenir Ousmane / l'équipe / la vision">Non financier</option>
+                    <option value="Autre">Autre</option>
+                </select>
+
+                <select class="filter-select" id="filterReinvestir" onchange="filterResponses()">
+                    <option value="">Réinvestir : Tous</option>
+                    <option value="Oui">Oui</option>
+                    <option value="Non">Non</option>
+                    <option value="Peut-être / sous conditions">Peut-être</option>
+                </select>
+
+                <select class="filter-select" id="filterRevente" onchange="filterResponses()">
+                    <option value="">Revente +50% : Tous</option>
+                    <option value="Oui">Oui</option>
+                    <option value="Non">Non</option>
+                </select>
+            </div>
+
+            <!-- Statistiques -->
+            <div class="stats-bar">
+                <div class="stat-item">
+                    📋 Total: <strong id="totalCount">0</strong>
+                </div>
+                <div class="stat-item">
+                    👁️ Affichées: <strong id="displayedCount">0</strong>
+                </div>
+                <div class="stat-item">
+                    📅 Dernière mise à jour: <strong id="lastUpdate">-</strong>
+                </div>
+            </div>
+
+            <!-- Zone de chargement -->
+            <div id="loadingZone" class="loading">
+                <div class="spinner"></div>
+                <p>Chargement des réponses...</p>
+            </div>
+
+            <!-- Liste des réponses -->
+            <div id="responsesContainer"></div>
+
+            <!-- État vide -->
+            <div id="emptyState" class="empty-state" style="display: none;">
+                <div class="empty-state-icon">📭</div>
+                <h3>Aucune réponse trouvée</h3>
+                <p>Il n'y a pas encore de réponses au sondage.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = window.location.origin;
+        let allResponses = [];
+        let filteredResponses = [];
+
+        // Charger toutes les réponses
+        async function loadAllResponses() {
+            try {
+                showLoading(true);
+                hideError();
+
+                const response = await fetch(`${API_URL}/api/reponses?limit=1000`);
+                const result = await response.json();
+
+                if (result.success) {
+                    allResponses = result.data.reponses;
+                    filteredResponses = [...allResponses];
+                    
+                    updateStats();
+                    filterResponses();
+                    showLoading(false);
+
+                    if (allResponses.length === 0) {
+                        showEmptyState();
+                    }
+                } else {
+                    throw new Error(result.message || 'Erreur lors du chargement');
+                }
+            } catch (error) {
+                showLoading(false);
+                showError('Erreur lors du chargement des réponses: ' + error.message);
+            }
+        }
+
+        // Filtrer les réponses
+        function filterResponses() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const filterObjectif = document.getElementById('filterObjectif').value;
+            const filterReinvestir = document.getElementById('filterReinvestir').value;
+            const filterRevente = document.getElementById('filterRevente').value;
+
+            filteredResponses = allResponses.filter(r => {
+                // Filtre de recherche texte
+                const matchSearch = !searchTerm || 
+                    (r.nom && r.nom.toLowerCase().includes(searchTerm)) ||
+                    (r.email && r.email.toLowerCase().includes(searchTerm)) ||
+                    r.objectif_principal.toLowerCase().includes(searchTerm) ||
+                    r.delai_attente.toLowerCase().includes(searchTerm) ||
+                    r.reinvestir.toLowerCase().includes(searchTerm) ||
+                    r.critere_determinant.toLowerCase().includes(searchTerm);
+
+                // Filtres sélection
+                const matchObjectif = !filterObjectif || r.objectif_principal === filterObjectif;
+                const matchReinvestir = !filterReinvestir || r.reinvestir === filterReinvestir;
+                const matchRevente = !filterRevente || r.revente_plus_value === filterRevente;
+
+                return matchSearch && matchObjectif && matchReinvestir && matchRevente;
+            });
+
+            renderResponses();
+        }
+
+        // Afficher les réponses
+        function renderResponses() {
+            const container = document.getElementById('responsesContainer');
+            
+            if (filteredResponses.length === 0 && allResponses.length > 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🔍</div>
+                        <h3>Aucun résultat</h3>
+                        <p>Aucune réponse ne correspond à vos critères de recherche.</p>
+                    </div>
+                `;
+                document.getElementById('displayedCount').textContent = '0';
+                return;
+            }
+
+            let html = '';
+            filteredResponses.forEach((r, index) => {
+                const date = formatDate(r.date_soumission);
+                
+                html += `
+                    <div class="response-card">
+                        <div class="response-header">
+                            <div class="response-meta">
+                                <div class="response-id">#${r.id} - Réponse ${index + 1}</div>
+                                <div class="response-date">📅 ${date}</div>
+                            </div>
+                            <div style="text-align: right;">
+                                ${r.nom ? `<div class="response-name">👤 ${escapeHtml(r.nom)}</div>` : ''}
+                                ${r.email ? `<div class="response-email">✉️ ${escapeHtml(r.email)}</div>` : ''}
+                            </div>
+                        </div>
+
+                        <div class="questions-grid">
+                            <div class="question-block">
+                                <div class="question-label">🎯 Objectif principal</div>
+                                <div class="question-answer highlight">${escapeHtml(r.objectif_principal)}</div>
+                                ${r.objectif_autre ? `<div class="answer-autre">→ ${escapeHtml(r.objectif_autre)}</div>` : ''}
+                            </div>
+
+                            <div class="question-block">
+                                <div class="question-label">⏳ Délai d'attente</div>
+                                <div class="question-answer">${escapeHtml(r.delai_attente)}</div>
+                                ${r.delai_autre ? `<div class="answer-autre">→ ${escapeHtml(r.delai_autre)}</div>` : ''}
+                            </div>
+
+                            <div class="question-block">
+                                <div class="question-label">💰 Revente avec +50%</div>
+                                <div class="question-answer ${r.revente_plus_value === 'Oui' ? 'highlight' : ''}">
+                                    ${r.revente_plus_value === 'Oui' ? '✅' : '❌'} ${escapeHtml(r.revente_plus_value)}
+                                </div>
+                                ${r.revente_autre ? `<div class="answer-autre">→ ${escapeHtml(r.revente_autre)}</div>` : ''}
+                            </div>
+
+                            <div class="question-block">
+                                <div class="question-label">🔄 Réinvestir</div>
+                                <div class="question-answer ${r.reinvestir === 'Oui' ? 'highlight' : ''}">
+                                    ${getEmojiForReinvestir(r.reinvestir)} ${escapeHtml(r.reinvestir)}
+                                </div>
+                                ${r.reinvestir_autre ? `<div class="answer-autre">→ ${escapeHtml(r.reinvestir_autre)}</div>` : ''}
+                            </div>
+
+                            <div class="question-block">
+                                <div class="question-label">⭐ Critère déterminant</div>
+                                <div class="question-answer">${escapeHtml(r.critere_determinant)}</div>
+                                ${r.critere_autre ? `<div class="answer-autre">→ ${escapeHtml(r.critere_autre)}</div>` : ''}
+                            </div>
+
+                            ${r.priorite_2026 ? `
+                                <div class="question-block">
+                                    <div class="question-label">🎯 Priorité 2026</div>
+                                    <div class="question-answer">${escapeHtml(r.priorite_2026)}</div>
+                                    ${r.priorite_autre ? `<div class="answer-autre">→ ${escapeHtml(r.priorite_autre)}</div>` : ''}
+                                </div>
+                            ` : ''}
+
+                            ${r.niveau_reporting ? `
+                                <div class="question-block">
+                                    <div class="question-label">📊 Niveau de reporting</div>
+                                    <div class="question-answer">${escapeHtml(r.niveau_reporting)}</div>
+                                    ${r.reporting_autre ? `<div class="answer-autre">→ ${escapeHtml(r.reporting_autre)}</div>` : ''}
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+            document.getElementById('displayedCount').textContent = filteredResponses.length;
+        }
+
+        // Mettre à jour les statistiques
+        function updateStats() {
+            document.getElementById('totalCount').textContent = allResponses.length;
+            document.getElementById('displayedCount').textContent = filteredResponses.length;
+            document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString('fr-FR');
+        }
+
+        // Formater la date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            return `${day}/${month}/${year} à ${hours}:${minutes}`;
+        }
+
+        // Échapper le HTML
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Obtenir l'emoji pour réinvestir
+        function getEmojiForReinvestir(value) {
+            switch(value) {
+                case 'Oui': return '✅';
+                case 'Non': return '❌';
+                case 'Peut-être / sous conditions': return '🤔';
+                default: return '❓';
+            }
+        }
+
+        // Afficher/masquer le chargement
+        function showLoading(show) {
+            document.getElementById('loadingZone').style.display = show ? 'block' : 'none';
+            document.getElementById('responsesContainer').style.display = show ? 'none' : 'block';
+        }
+
+        // Afficher l'état vide
+        function showEmptyState() {
+            document.getElementById('emptyState').style.display = 'block';
+            document.getElementById('responsesContainer').style.display = 'none';
+        }
+
+        // Afficher une erreur
+        function showError(message) {
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        // Masquer l'erreur
+        function hideError() {
+            document.getElementById('error').style.display = 'none';
+        }
+
+        // Charger au démarrage
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAllResponses();
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,458 @@
+/* Reset et styles de base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --mata-red: #c73e1d;
+    --mata-orange: #d94a2a;
+    --text-dark: #333333;
+    --text-gray: #666666;
+    --bg-light: #f5f5f5;
+    --bg-white: #ffffff;
+    --border-color: #dddddd;
+    --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+    line-height: 1.6;
+    color: var(--text-dark);
+    background: var(--bg-light);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Container principal */
+.container {
+    max-width: 700px;
+    margin: 40px auto;
+    background: var(--bg-white);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+/* Header */
+.header {
+    background: var(--bg-white);
+    padding: 50px 40px 30px;
+    text-align: center;
+    border-bottom: 3px solid var(--mata-red);
+}
+
+.mata-title {
+    font-size: 48px;
+    font-weight: 800;
+    letter-spacing: 4px;
+    color: var(--mata-red);
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: var(--text-gray);
+    text-transform: uppercase;
+}
+
+/* Section d'introduction */
+.intro-section {
+    padding: 30px 40px;
+    background: var(--bg-white);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.intro-section p {
+    margin-bottom: 15px;
+    color: var(--text-gray);
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.duration {
+    margin-top: 20px;
+    padding: 12px;
+    background: #fff9f5;
+    border-left: 3px solid var(--mata-red);
+    font-size: 13px;
+}
+
+/* Formulaire */
+.survey-form {
+    padding: 40px 40px 30px;
+}
+
+.form-section {
+    margin-bottom: 30px;
+}
+
+/* Informations optionnelles */
+.optional-info {
+    background: var(--bg-light);
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 40px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group:last-child {
+    margin-bottom: 0;
+}
+
+.form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 6px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"] {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+    background: white;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus {
+    outline: none;
+    border-color: var(--mata-red);
+}
+
+/* Labels de question */
+.question-label {
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 12px;
+}
+
+/* Dropdowns (Select) */
+select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 14px;
+    color: var(--text-dark);
+    background-color: white;
+    cursor: pointer;
+    transition: all 0.3s;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 18px;
+    padding-right: 40px;
+    font-weight: 500;
+}
+
+select:hover {
+    border-color: var(--mata-red);
+}
+
+select:focus {
+    outline: none;
+    border-color: var(--mata-red);
+    box-shadow: 0 0 0 3px rgba(199, 62, 29, 0.1);
+}
+
+select option {
+    padding: 10px;
+    color: #1a1a1a;
+    font-weight: 500;
+    background-color: white;
+}
+
+select option:hover,
+select option:focus {
+    background-color: #f5f5f5;
+}
+
+/* Radio buttons simples */
+.radio-group-simple {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.radio-simple {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--text-dark);
+}
+
+.radio-simple input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+    cursor: pointer;
+    accent-color: var(--mata-red);
+}
+
+.radio-simple span {
+    user-select: none;
+}
+
+/* Champ "Autre" */
+.other-input {
+    margin-top: 12px;
+}
+
+.other-input input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+.other-input input:focus {
+    outline: none;
+    border-color: var(--mata-red);
+    box-shadow: 0 0 0 3px rgba(199, 62, 29, 0.1);
+}
+
+/* Bouton de soumission */
+.submit-section {
+    margin-top: 40px;
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+.submit-btn {
+    background: var(--mata-red);
+    color: white;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 16px 60px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 10px rgba(199, 62, 29, 0.3);
+    min-width: 280px;
+}
+
+.submit-btn:hover {
+    background: #b03419;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(199, 62, 29, 0.4);
+}
+
+.submit-btn:active {
+    transform: translateY(0);
+}
+
+.submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-loader {
+    display: inline-block;
+}
+
+/* Messages */
+.success-message,
+.error-message {
+    padding: 40px;
+    text-align: center;
+}
+
+.success-content,
+.error-content {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.success-icon {
+    width: 80px;
+    height: 80px;
+    background: #10b981;
+    color: white;
+    font-size: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+}
+
+.error-icon {
+    width: 80px;
+    height: 80px;
+    background: #ef4444;
+    color: white;
+    font-size: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+}
+
+.success-message h2 {
+    font-size: 24px;
+    color: #10b981;
+    margin-bottom: 15px;
+}
+
+.success-message p {
+    font-size: 15px;
+    color: var(--text-gray);
+    margin-bottom: 10px;
+}
+
+.error-message h3 {
+    font-size: 22px;
+    color: #ef4444;
+    margin-bottom: 15px;
+}
+
+.error-message p {
+    font-size: 15px;
+    color: var(--text-gray);
+    margin-bottom: 20px;
+}
+
+.retry-btn {
+    background: #ef4444;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 12px 28px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.retry-btn:hover {
+    background: #dc2626;
+}
+
+/* Footer */
+.footer {
+    padding: 20px;
+    text-align: center;
+    background: var(--bg-light);
+    border-top: 1px solid var(--border-color);
+    color: var(--text-gray);
+    font-size: 13px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        margin: 20px auto;
+    }
+
+    .header {
+        padding: 40px 25px 25px;
+    }
+
+    .mata-title {
+        font-size: 36px;
+        letter-spacing: 3px;
+    }
+
+    .subtitle {
+        font-size: 11px;
+    }
+
+    .intro-section,
+    .survey-form {
+        padding: 25px;
+    }
+
+    .submit-btn {
+        width: 100%;
+        min-width: auto;
+        padding: 16px 30px;
+        font-size: 14px;
+    }
+
+    .radio-group-simple {
+        flex-direction: column;
+        gap: 12px;
+    }
+}
+
+/* Amélioration de l'accessibilité */
+:focus-visible {
+    outline: 2px solid var(--mata-red);
+    outline-offset: 2px;
+}
+
+/* Animation de chargement */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading::after {
+    content: "";
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid white;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+    margin-left: 8px;
+    vertical-align: middle;
+}
+
+/* États de validation */
+input:invalid:not(:placeholder-shown):not(:focus) {
+    border-color: #ef4444;
+}
+
+input:valid:not(:placeholder-shown):not(:focus) {
+    border-color: #10b981;
+}
+
+select:invalid {
+    color: #888;
+}
+
+select:valid {
+    color: #1a1a1a;
+    font-weight: 500;
+}
+
+/* Placeholder styling */
+::placeholder {
+    color: #aaa;
+    opacity: 1;
+}
+
+/* Assurer que le texte sélectionné dans les dropdowns est noir foncé */
+select option:checked {
+    color: #1a1a1a;
+    font-weight: 600;
+}
