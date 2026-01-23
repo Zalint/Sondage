@@ -3,6 +3,7 @@ const cors = require('cors');
 const { Pool } = require('pg');
 const path = require('path');
 const XLSX = require('xlsx');
+const crypto = require('crypto');
 require('dotenv').config();
 
 // Configuration du serveur
@@ -52,7 +53,120 @@ app.use((req, res, next) => {
     next();
 });
 
+// ==================== MIDDLEWARES ====================
+
+// Générer un token simple (sans JWT pour éviter une dépendance supplémentaire)
+function generateToken() {
+    return crypto.randomBytes(32).toString('hex');
+}
+
+// Stocker les tokens valides en mémoire (pour une vraie prod, utiliser Redis)
+const validTokens = new Set();
+
+// Middleware d'authentification admin
+function authenticateAdmin(req, res, next) {
+    const authHeader = req.headers.authorization;
+    
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return res.status(401).json({
+            success: false,
+            message: 'Token manquant'
+        });
+    }
+    
+    const token = authHeader.substring(7);
+    
+    if (!validTokens.has(token)) {
+        return res.status(401).json({
+            success: false,
+            message: 'Token invalide ou expiré'
+        });
+    }
+    
+    next();
+}
+
 // ==================== ROUTES ====================
+
+// Route de connexion admin
+app.post('/api/admin/login', (req, res) => {
+    const { username, password } = req.body;
+    
+    const ADMIN_USER = process.env.ADMIN_USERNAME || 'admin';
+    const ADMIN_PASS = process.env.ADMIN_PASSWORD || 'Mata2026';
+    
+    if (username === ADMIN_USER && password === ADMIN_PASS) {
+        const token = generateToken();
+        validTokens.add(token);
+        
+        // Expirer le token après 24h
+        setTimeout(() => {
+            validTokens.delete(token);
+        }, 24 * 60 * 60 * 1000);
+        
+        res.json({
+            success: true,
+            token: token,
+            message: 'Connexion réussie'
+        });
+    } else {
+        res.status(401).json({
+            success: false,
+            message: 'Identifiants incorrects'
+        });
+    }
+});
+
+// Route de déconnexion admin
+app.post('/api/admin/logout', authenticateAdmin, (req, res) => {
+    const token = req.headers.authorization.substring(7);
+    validTokens.delete(token);
+    
+    res.json({
+        success: true,
+        message: 'Déconnexion réussie'
+    });
+});
+
+// Route pour supprimer une réponse
+app.delete('/api/admin/reponse/:id', authenticateAdmin, async (req, res) => {
+    const client = await pool.connect();
+    
+    try {
+        const { id } = req.params;
+        
+        // Vérifier que la réponse existe
+        const checkQuery = 'SELECT id FROM reponses_sondage WHERE id = $1';
+        const checkResult = await client.query(checkQuery, [id]);
+        
+        if (checkResult.rows.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: 'Réponse non trouvée'
+            });
+        }
+        
+        // Supprimer la réponse
+        const deleteQuery = 'DELETE FROM reponses_sondage WHERE id = $1';
+        await client.query(deleteQuery, [id]);
+        
+        console.log(`✓ Réponse #${id} supprimée`);
+        
+        res.json({
+            success: true,
+            message: 'Réponse supprimée avec succès'
+        });
+        
+    } catch (error) {
+        console.error('Erreur lors de la suppression:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Erreur lors de la suppression de la réponse'
+        });
+    } finally {
+        client.release();
+    }
+});
 
 // Route de test
 app.get('/api/health', async (req, res) => {

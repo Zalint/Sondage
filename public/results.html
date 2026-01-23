@@ -43,10 +43,12 @@
             display: flex;
             gap: 15px;
             justify-content: center;
+            align-items: center;
             margin-top: 15px;
         }
 
-        .nav-links a {
+        .nav-links a,
+        .nav-links button {
             color: white;
             text-decoration: none;
             padding: 8px 16px;
@@ -56,8 +58,23 @@
             transition: background 0.3s;
         }
 
-        .nav-links a:hover {
+        .nav-links a:hover,
+        .nav-links button:hover {
             background: rgba(255,255,255,0.3);
+        }
+
+        .nav-links button {
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .nav-links .logout-btn {
+            background: rgba(231, 76, 60, 0.8);
+        }
+
+        .nav-links .logout-btn:hover {
+            background: rgba(231, 76, 60, 1);
         }
 
         .content {
@@ -173,6 +190,34 @@
             margin-bottom: 20px;
             padding-bottom: 15px;
             border-bottom: 2px solid #f3f4f6;
+            position: relative;
+        }
+
+        .delete-btn {
+            position: absolute;
+            top: -5px;
+            right: 0;
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .delete-btn:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(239, 68, 68, 0.3);
+        }
+
+        .delete-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
         }
 
         .response-meta {
@@ -378,6 +423,7 @@
                 <a href="/api/export/excel">📊 Exporter Excel</a>
                 <a href="/api/export/csv">📥 Exporter CSV</a>
                 <a href="/">📝 Formulaire</a>
+                <button class="logout-btn" onclick="logout()">🚪 Déconnexion</button>
             </div>
         </div>
 
@@ -536,8 +582,11 @@
                 const date = formatDate(r.date_soumission);
                 
                 html += `
-                    <div class="response-card">
+                    <div class="response-card" data-id="${r.id}">
                         <div class="response-header">
+                            <button class="delete-btn" onclick="deleteResponse(${r.id})" title="Supprimer cette réponse">
+                                🗑️ Supprimer
+                            </button>
                             <div class="response-meta">
                                 <div class="response-id">#${r.id} - Réponse ${index + 1}</div>
                                 <div class="response-date">📅 ${date}</div>
@@ -669,8 +718,73 @@
             document.getElementById('error').style.display = 'none';
         }
 
+        // Vérifier l'authentification
+        function checkAuth() {
+            const token = localStorage.getItem('adminToken');
+            if (!token) {
+                window.location.href = '/login.html';
+                return false;
+            }
+            return true;
+        }
+
+        // Fonction de déconnexion
+        function logout() {
+            if (confirm('Voulez-vous vraiment vous déconnecter ?')) {
+                localStorage.removeItem('adminToken');
+                window.location.href = '/login.html';
+            }
+        }
+
+        // Fonction pour supprimer une réponse
+        async function deleteResponse(id) {
+            if (!confirm(`Êtes-vous sûr de vouloir supprimer la réponse #${id} ?\n\nCette action est irréversible.`)) {
+                return;
+            }
+
+            const token = localStorage.getItem('adminToken');
+            
+            try {
+                const response = await fetch(`/api/admin/reponse/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    // Retirer la carte de l'affichage avec animation
+                    const card = document.querySelector(`[data-id="${id}"]`);
+                    if (card) {
+                        card.style.opacity = '0';
+                        card.style.transform = 'scale(0.9)';
+                        setTimeout(() => {
+                            card.remove();
+                            // Recharger les données
+                            loadAllResponses();
+                        }, 300);
+                    }
+                    alert('Réponse supprimée avec succès !');
+                } else if (response.status === 401) {
+                    alert('Session expirée. Veuillez vous reconnecter.');
+                    localStorage.removeItem('adminToken');
+                    window.location.href = '/login.html';
+                } else {
+                    const error = await response.json();
+                    alert('Erreur lors de la suppression : ' + (error.message || 'Erreur inconnue'));
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                alert('Erreur lors de la suppression de la réponse.');
+            }
+        }
+
         // Charger au démarrage
         document.addEventListener('DOMContentLoaded', () => {
+            // Vérifier l'authentification d'abord
+            if (!checkAuth()) {
+                return;
+            }
             loadAllResponses();
         });
     </script>
