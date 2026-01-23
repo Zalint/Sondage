@@ -105,10 +105,19 @@ app.post('/api/sondage', async (req, res) => {
             });
         }
 
-        // Récupération de l'IP du client
-        const ip_address = req.headers['x-forwarded-for'] || 
-                          req.connection.remoteAddress || 
-                          req.socket.remoteAddress;
+        // Récupération de l'IP du client (prendre seulement la première IP si plusieurs via proxies)
+        let ip_address = req.headers['x-forwarded-for'] || 
+                        req.connection.remoteAddress || 
+                        req.socket.remoteAddress ||
+                        'unknown';
+        
+        // Si x-forwarded-for contient plusieurs IPs, prendre seulement la première
+        if (ip_address && ip_address.includes(',')) {
+            ip_address = ip_address.split(',')[0].trim();
+        }
+        
+        // Limiter la longueur à 100 caractères pour être sûr
+        ip_address = ip_address.substring(0, 100);
 
         // Insertion dans la base de données
         const query = `

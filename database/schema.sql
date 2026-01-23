@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS reponses_sondage (
     
     -- Métadonnées
     date_soumission TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    ip_address VARCHAR(45),
+    ip_address VARCHAR(100),
     
     CONSTRAINT check_objectif CHECK (objectif_principal IN (
         'Gagner des dividendes',
